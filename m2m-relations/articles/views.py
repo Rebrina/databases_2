@@ -5,9 +5,8 @@ from .models import Article, Membership, Scope
 def articles_list(request):
     template = 'articles/news.html'
     context = {}
+    ordering = '-published_at'
 
-    # используйте этот параметр для упорядочивания результатов
-    # https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet.order_by
     articles = Article.objects.all()
     context['tags'] = {}
     for article in articles:
@@ -15,7 +14,5 @@ def articles_list(request):
         tags = Scope.objects.filter(article=article.id).order_by('-membership__is_main', 'tematik').all()
         context['tags'][article.id] = tags
     context['object_list'] = Article.objects.all()
-
-    ordering = '-published_at'
 
     return render(request, template, context)

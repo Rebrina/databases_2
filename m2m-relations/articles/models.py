@@ -5,6 +5,7 @@ class Article(models.Model):
     text = models.TextField(verbose_name='Текст')
     published_at = models.DateTimeField(verbose_name='Дата публикации')
     image = models.ImageField(null=True, blank=True, verbose_name='Изображение',)
+   # scopes = models.ManyToManyField('Scope', through='Membership')
 
     class Meta:
         verbose_name = 'Статья'
@@ -15,7 +16,12 @@ class Article(models.Model):
 
 class Scope(models.Model):
     article = models.ManyToManyField(Article, through='Membership')
-    tematik = models.CharField(max_length=256, verbose_name='Название')
+    tematik = models.CharField(max_length=256, verbose_name='Разделы')
+
+    class Meta:
+        verbose_name = 'Раздел'
+        verbose_name_plural = 'Разделы'
+
     def __str__(self):
         return self.tematik
 
